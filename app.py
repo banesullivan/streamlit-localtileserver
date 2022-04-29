@@ -1,3 +1,4 @@
+import os
 from pathlib import Path
 
 import folium
@@ -11,6 +12,11 @@ from localtileserver.validate import (
 from streamlit_folium import folium_static
 
 "# streamlit-localtileserver"
+
+if os.environ.get("JUPYTERHUB_SERVICE_PREFIX") is not None:
+    os.environ[
+        "LOCALTILESERVER_CLIENT_PREFIX"
+    ] = f"{os.environ['JUPYTERHUB_SERVICE_PREFIX'].lstrip('/')}/proxy/{{port}}"
 
 
 def upload_file_to_path(uploaded_file):
