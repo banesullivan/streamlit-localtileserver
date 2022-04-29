@@ -26,9 +26,11 @@ def upload_file_to_path(uploaded_file):
         f.write(uploaded_file.getvalue())
     return str(path.absolute())
 
+st.write(os.environ)
+
 
 uploaded_file = st.file_uploader("Upload a raster")
-url = st.text_input("Or input a URL")
+url = st.text_input("Or input a URL (try https://data.kitware.com/api/v1/file/626854a14acac99f42126a74/download)")
 if uploaded_file or url:
     if uploaded_file is not None:
         client = TileClient(upload_file_to_path(uploaded_file))
