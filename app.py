@@ -1,4 +1,6 @@
+import argparse
 from pathlib import Path
+import sys
 
 import folium
 import streamlit as st
@@ -16,6 +18,12 @@ from streamlit_folium import folium_static
 # TODO: set `"LOCALTILESERVER_CLIENT_PREFIX"`
 
 
+def parse_args(args):
+    parser = argparse.ArgumentParser('Data Diagnostics')
+    parser.add_argument('-f', '--filename', help='Local path or URL', required=False)
+    return parser.parse_args(args)
+
+
 def upload_file_to_path(uploaded_file):
     path = Path(user_data_dir("localtileserver"), uploaded_file.name)
     path.parent.mkdir(parents=True, exist_ok=True)
@@ -23,16 +31,20 @@ def upload_file_to_path(uploaded_file):
         f.write(uploaded_file.getvalue())
     return str(path.absolute())
 
-
+args = parse_args(sys.argv[1:])
 uploaded_file = st.file_uploader("Upload a raster")
 url = st.text_input(
     "Or input a URL (try https://data.kitware.com/api/v1/file/626854a14acac99f42126a74/download)"
 )
-if uploaded_file or url:
-    if uploaded_file is not None:
+arg_path = args.filename
+
+if uploaded_file or url or arg_path:
+    if uploaded_file:
         client = TileClient(upload_file_to_path(uploaded_file))
-    elif url is not None:
+    elif url:
         client = TileClient(url)
+    elif arg_path:
+        client = TileClient(arg_path)
     layer = get_folium_tile_layer(client)
 
     try:
