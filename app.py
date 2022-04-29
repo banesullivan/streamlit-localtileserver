@@ -1,12 +1,14 @@
-import os
 from pathlib import Path
 
 import folium
 import streamlit as st
 from appdirs import user_data_dir
+from folium.plugins import Fullscreen
 from localtileserver import TileClient, get_folium_tile_layer
-from localtileserver.validate import (ValidateCloudOptimizedGeoTIFFException,
-                                      validate_cog)
+from localtileserver.validate import (
+    ValidateCloudOptimizedGeoTIFFException,
+    validate_cog,
+)
 from streamlit_folium import folium_static
 
 "# streamlit-localtileserver"
@@ -20,9 +22,6 @@ def upload_file_to_path(uploaded_file):
     with open(path, "wb") as f:
         f.write(uploaded_file.getvalue())
     return str(path.absolute())
-
-
-st.write(os.environ)
 
 
 uploaded_file = st.file_uploader("Upload a raster")
@@ -46,6 +45,8 @@ if uploaded_file or url:
     m.add_child(layer)
 else:
     m = folium.Map()
+
+Fullscreen().add_to(m)
 
 # call to render Folium map in Streamlit
 folium_static(m)
