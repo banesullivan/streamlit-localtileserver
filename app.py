@@ -59,11 +59,13 @@ if style_text:
 
 if uploaded_file or url or arg_path:
     if uploaded_file:
-        client = TileClient(upload_file_to_path(uploaded_file))
+        path = upload_file_to_path(uploaded_file)
     elif url:
-        client = TileClient(url)
+        path = url
     elif arg_path:
-        client = TileClient(arg_path)
+        path = arg_path
+
+    client = TileClient(path)
     layer = get_folium_tile_layer(client, style=style)
 
     try:
