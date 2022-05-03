@@ -65,7 +65,11 @@ if uploaded_file or url or arg_path:
     elif arg_path:
         path = arg_path
 
-    client = TileClient(path)
+    client = TileClient(
+        path,
+        client_host='http://localhost:8501',
+        client_prefix='/proxy/{port}'
+    )
     layer = get_folium_tile_layer(client, style=style)
 
     try:
