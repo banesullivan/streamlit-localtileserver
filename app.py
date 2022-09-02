@@ -78,7 +78,7 @@ if uploaded_file or url or arg_path:
     m.add_child(layer)
 
     with st.sidebar:
-        st.image(str(client.thumbnail()))
+        st.image(client.thumbnail())
         st.write("Metadata")
         st.json(client.metadata())
 else:

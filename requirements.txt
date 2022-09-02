@@ -3,7 +3,7 @@ click<=8.0.4
 folium
 jupyter-server-proxy
 --find-links https://girder.github.io/large_image_wheels GDAL
-localtileserver[colormaps]>=0.5.6
+localtileserver[colormaps]>=0.6.0
 nbserverproxy
 streamlit
 streamlit-folium
